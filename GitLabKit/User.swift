@@ -1,5 +1,5 @@
 //
-//  Logger.swift
+//  User.swift
 //  GitLabKit
 //
 //  Copyright (c) 2015 orih. All rights reserved.
@@ -23,16 +23,24 @@
 //  THE SOFTWARE.
 
 import Foundation
+import Mantle
 
-class Logger{
-    class func log(message: AnyObject?,
-        function: String = __FUNCTION__,
-        file: String = __FILE__,
-        line: Int = __LINE__) {
-            var filename = file
-            if let match = filename.rangeOfString("[^/]*$", options: .RegularExpressionSearch) {
-                filename = filename.substringWithRange(match)
-            }
-            println("Log:\(filename):L\(line):\(function) \"\(message)\"")
+public class User: GitLabModel, Fetchable {
+    public var id: NSNumber?
+    public var avatarUrl: String?
+    public var username: String?
+    public var name: String?
+    public var state: String?
+    
+    public override class func JSONKeyPathsByPropertyKey() -> [NSObject : AnyObject]! {
+        var baseKeys: [NSObject : AnyObject] = super.JSONKeyPathsByPropertyKey()
+        var newKeys: [NSObject : AnyObject] = [
+            "id"        : "id",
+            "avatarUrl" : "avatar_url",
+            "username"  : "username",
+            "name"      : "name",
+            "state"     : "state",
+        ]
+        return baseKeys + newKeys
     }
 }

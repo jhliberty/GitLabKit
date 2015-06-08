@@ -23,25 +23,23 @@
 //  THE SOFTWARE.
 
 import Foundation
-import Mantle
 
-public enum GitLabResponse<T: MTLModel where T: MTLJSONSerializing> {
-    case One(T)
-    case Many([T])
-    case Error(NSError?)
+public class GitLabResponse<T: GitLabModel> {
     
-    static func parse<T: MTLModel where T: MTLJSONSerializing>(JSON: AnyObject) -> GitLabResponse<T> {
-        var error: NSError?
-
-        if let object = JSON as? [NSObject: AnyObject] {
-            if let x = MTLJSONAdapter.modelOfClass(T.self, fromJSONDictionary: object, error: &error) as? T {
-                return .One(x)
-            }
-        } else if let array = JSON as? [AnyObject] {
-            if let xs = MTLJSONAdapter.modelsOfClass(T.self, fromJSONArray: array, error: &error) as? [T] {
-                return .Many(xs)
-            }
-        }
-        return .Error(error)
+    init(resultArray: [T]?, linkObject: GitLabLinkObject?) {
+        self.result = resultArray
+        self.linkObject = linkObject
     }
+    
+    private(set) var result: [T]?
+    private(set) var linkObject: GitLabLinkObject?
+    
+}
+
+public class GitLabCreateResponse<T: GitLabModel> {
+    var result: T?
+}
+
+public class GitLabUpdateResponse<T: GitLabModel> {
+    var result: T?
 }

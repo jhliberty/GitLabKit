@@ -1,5 +1,5 @@
 //
-//  Logger.swift
+//  Member.swift
 //  GitLabKit
 //
 //  Copyright (c) 2015 orih. All rights reserved.
@@ -24,15 +24,14 @@
 
 import Foundation
 
-class Logger{
-    class func log(message: AnyObject?,
-        function: String = __FUNCTION__,
-        file: String = __FILE__,
-        line: Int = __LINE__) {
-            var filename = file
-            if let match = filename.rangeOfString("[^/]*$", options: .RegularExpressionSearch) {
-                filename = filename.substringWithRange(match)
-            }
-            println("Log:\(filename):L\(line):\(function) \"\(message)\"")
+public class Member: User {
+    public var accessLevel: NSNumber?
+    
+    public override class func JSONKeyPathsByPropertyKey() -> [NSObject : AnyObject]! {
+        var baseKeys: [NSObject : AnyObject] = super.JSONKeyPathsByPropertyKey()
+        var newKeys: [NSObject : AnyObject] = [
+            "accessLevel" : "access_level"
+        ]
+        return baseKeys + newKeys
     }
 }

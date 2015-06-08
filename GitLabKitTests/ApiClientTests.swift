@@ -1,6 +1,6 @@
 //
-//  Logger.swift
-//  GitLabKit
+//  ApiClientTests.swift
+//  GitLabKitTests
 //
 //  Copyright (c) 2015 orih. All rights reserved.
 //
@@ -22,17 +22,14 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import Foundation
+import Cocoa
+import XCTest
 
-class Logger{
-    class func log(message: AnyObject?,
-        function: String = __FUNCTION__,
-        file: String = __FILE__,
-        line: Int = __LINE__) {
-            var filename = file
-            if let match = filename.rangeOfString("[^/]*$", options: .RegularExpressionSearch) {
-                filename = filename.substringWithRange(match)
-            }
-            println("Log:\(filename):L\(line):\(function) \"\(message)\"")
+class ApiClientTests: GitLabKitTests {
+    
+    func testHostUriShouldBeNormalized() {
+        var testClient = GitLabApiClient(host: "https://hostvalue.endswith.slash/", privateToken: "TOKEN")
+        XCTAssertEqual(testClient.host, "https://hostvalue.endswith.slash", "Slash character should be eliminated from end of the host uri value.")
     }
+    
 }

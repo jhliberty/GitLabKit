@@ -1,5 +1,5 @@
 //
-//  Logger.swift
+//  UserQueryParamBuilder.swift
 //  GitLabKit
 //
 //  Copyright (c) 2015 orih. All rights reserved.
@@ -24,15 +24,21 @@
 
 import Foundation
 
-class Logger{
-    class func log(message: AnyObject?,
-        function: String = __FUNCTION__,
-        file: String = __FILE__,
-        line: Int = __LINE__) {
-            var filename = file
-            if let match = filename.rangeOfString("[^/]*$", options: .RegularExpressionSearch) {
-                filename = filename.substringWithRange(match)
-            }
-            println("Log:\(filename):L\(line):\(function) \"\(message)\"")
+public class UserQueryParamBuilder : GeneralQueryParamBuilder, GitLabParamBuildable {
+    
+    public func id(userId: UInt) -> Self {
+        if params["id"]? != nil {
+            return self
+        }
+        params["id"] = userId
+        return self
     }
+    
+    /**
+    Other parameters in UserQueryParamBuilder will be ignored if this parameter is true.
+    */
+    public func mine(mine: Bool) -> Self {
+        params["mine"] = mine ? true : nil
+        return self
+    }    
 }

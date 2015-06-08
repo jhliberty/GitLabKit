@@ -1,5 +1,5 @@
 //
-//  GitLabUserBasic.swift
+//  IssueQueryParamBuilder.swift
 //  GitLabKit
 //
 //  Copyright (c) 2015 orih. All rights reserved.
@@ -23,22 +23,19 @@
 //  THE SOFTWARE.
 
 import Foundation
-import Mantle
 
-public class GitLabUserBasic: MTLModel, MTLJSONSerializing {
-    public var id: NSNumber?
-    public var avatarUrl: String?
-    public var username: String?
-    public var name: String?
-    public var state: String?
+public class IssueQueryParamBuilder : GeneralQueryParamBuilder, GitLabParamBuildable {
     
-    public class func JSONKeyPathsByPropertyKey() -> [NSObject : AnyObject]! {
-        return [
-            "id"        : "id",
-            "avatarUrl" : "avatar_url",
-            "username"  : "username",
-            "name"      : "name",
-            "state"     : "state",
-        ]
+    public func state(state: IssueState) -> Self {
+        params["state"] = state.rawValue
+        return self
     }
+    
+    public func label(labels: [String]) -> Self {
+        if labels.count > 0 {
+            params["labels"] = ",".join(labels)
+        }
+        return self
+    }
+    
 }

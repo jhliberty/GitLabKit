@@ -1,5 +1,5 @@
 //
-//  Logger.swift
+//  Tag.swift
 //  GitLabKit
 //
 //  Copyright (c) 2015 orih. All rights reserved.
@@ -24,15 +24,5 @@
 
 import Foundation
 
-class Logger{
-    class func log(message: AnyObject?,
-        function: String = __FUNCTION__,
-        file: String = __FILE__,
-        line: Int = __LINE__) {
-            var filename = file
-            if let match = filename.rangeOfString("[^/]*$", options: .RegularExpressionSearch) {
-                filename = filename.substringWithRange(match)
-            }
-            println("Log:\(filename):L\(line):\(function) \"\(message)\"")
-    }
+public class Tag: Branch {
 }
